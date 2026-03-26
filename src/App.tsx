@@ -80,7 +80,7 @@ export default function App() {
           onClick={() => handleNavClick('HOME')}
           className="font-serif tracking-[0.2em] text-sm text-textMain cursor-pointer"
         >
-          AETHER
+          ANTERIA
         </div>
         <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 text-textMain focus:outline-none">
           {menuOpen ? <CloseIcon /> : <MenuIcon />}
@@ -145,11 +145,9 @@ export default function App() {
             >
               {/* 배경 이미지 */}
               <div
-                className="absolute inset-0 bg-cover bg-center select-none pointer-events-none grayscale"
+                className={`absolute inset-0 bg-cover bg-center select-none pointer-events-none transition-all duration-1000 ease-in-out ${isHovered ? 'opacity-40 grayscale-0 scale-105' : 'opacity-0 grayscale scale-100'}`}
                 style={{
                   backgroundImage: `url(${item.img})`,
-                  opacity: isHovered ? 0.3 : 0,
-                  transition: 'opacity 1s ease',
                 }}
               />
               {/* 은은한 컬러 tint */}
