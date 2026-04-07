@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compass Planners - About</title>
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        :root {
+            --bg: #000;
+            --text: #fff;
+            --gray: #888;
+            --accent: #FF3B30;
+        }
+
+        html.lenis {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: "Pretendard", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ========= ARTISTIC NOISE OVERLAY ========= */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* ========= LANGUAGE TOGGLE ========= */
+        .lang-toggle-wrap {
+            position: fixed;
+            top: 30px;
+            right: 5%;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 16px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0;
+        }
+
+        .lang-btn:hover {
+            color: #fff;
+        }
+
+        .lang-btn.active {
+            color: var(--text);
+            font-weight: 800;
+        }
+
+        .lang-divider {
+            color: var(--gray);
+            font-weight: 300;
+        }
+
+        /* Lang Display Logic */
+        body:not(.lang-jp-active) .lang-jp {
+            display: none !important;
+        }
+
+        body.lang-jp-active .lang-kr {
+            display: none !important;
+        }
+
+        /* ========= HERO SECTION ========= */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+        }
+
+        .hero-subtitle {
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .hero-title {
+            font-size: clamp(50px, 9vw, 130px);
+            font-weight: 800;
+            line-height: 0.9;
+            letter-spacing: -0.05em;
+            margin: 0;
+        }
+
+        .hero-title span {
+            display: block;
+            color: var(--gray);
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            color: var(--gray);
+            text-transform: uppercase;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background-color: var(--gray);
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: var(--text);
+            animation: scrollLine 2s infinite ease-in-out;
+        }
+
+        @keyframes scrollLine {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        /* ========= MISSION SECTION ========= */
+        .mission {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 5%;
+        }
+
+        .mission-wrap {
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .mission-text {
+            font-size: clamp(28px, 3.5vw, 52px);
+            font-weight: 600;
+            line-height: 1.5;
+            letter-spacing: -0.02em;
+            word-break: keep-all;
+            color: var(--gray);
+            margin-bottom: 25px;
+        }
+
+        .mission-jp {
+            font-size: clamp(16px, 1.5vw, 24px);
+            font-weight: 400;
+            line-height: 1.8;
+            letter-spacing: 0.05em;
+            word-break: keep-all;
+            color: rgba(136, 136, 136, 0.6);
+            /* Slightly dimmer gray for the sub-language */
+        }
+
+        .mission-wrap .word {
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .mission-text {
+                font-size: 28px;
+                text-align: left;
+            }
+        }
+
+        /* ========= SERVICES SECTION ========= */
+        .services {
+            padding: 150px 5%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            font-size: 14px;
+            letter-spacing: 0.3em;
+            color: var(--accent);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 80px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+        }
+
+        .service-list {
+            display: flex;
+            flex-direction: column;
+            gap: 120px;
+        }
+
+        .service-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8vh;
+            align-items: center;
+        }
+
+        /* Swap order for even items to create zigzag layout */
+        .service-item:nth-child(even) .service-img-wrap {
+            order: 2;
+        }
+
+        .service-item:nth-child(even) .service-content {
+            order: 1;
+        }
+
+        .service-img-wrap {
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .service-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.1);
+            /* default for parallax */
+        }
+
+        .service-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .service-num {
+            font-size: 24px;
+            font-weight: 300;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .service-title {
+            font-size: clamp(32px, 3.5vw, 54px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 25px;
+        }
+
+        .service-desc {
+            font-size: 17px;
+            font-weight: 300;
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            word-break: keep-all;
+        }
+
+        .service-bullets {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .service-bullets li {
+            font-size: 16px;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text);
+        }
+
+        .service-bullets li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+        }
+
+        @media (max-width: 1024px) {
+            .service-item {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .service-item:nth-child(even) .service-img-wrap {
+                order: 1;
+            }
+
+            .service-item:nth-child(even) .service-content {
+                order: 2;
+            }
+
+            .service-img-wrap {
+                height: 40vh;
+            }
+
+            .service-title {
+                font-size: 40px;
+            }
+
+            .service-desc {
+                font-size: 18px;
+            }
+        }
+
+        /* ========= HISTORY SECTION ========= */
+        .history {
+            padding: 150px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .history-container {
+            position: relative;
+            margin-top: 80px;
+            padding-left: 60px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background-color: var(--text);
+            /* Drawn by JS */
+        }
+
+        .history-item {
+            position: relative;
+            padding-bottom: 100px;
+            display: flex;
+            gap: 50px;
+        }
+
+        .history-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .history-dot {
+            position: absolute;
+            left: -64px;
+            /* 60px padding + 4px to center on 1px line */
+            top: 10px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background-color: var(--bg);
+            border: 1px solid var(--text);
+            z-index: 2;
+            transform: scale(0);
+            /* JS will animate */
+        }
+
+        .history-year {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--text);
+            min-width: 120px;
+            line-height: 1;
+        }
+
+        .history-desc {
+            flex: 1;
+            padding-top: 3px;
+        }
+
+        .history-desc p {
+            font-size: 16px;
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 12px;
+            word-break: keep-all;
+        }
+
+        @media (max-width: 768px) {
+            .history-item {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .history-year {
+                font-size: 32px;
+            }
+        }
+
+        /* ========= PRODUCT SECTION (HORIZONTAL SLIDESHOW) ========= */
+        .products-wrapper {
+            position: relative;
+            width: 100%;
+            background-color: var(--bg);
+        }
+
+        .products {
+            height: 100vh;
+            /* Will be pinned by ScrollMagic */
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .products .section-header {
+            position: absolute;
+            top: 15vh;
+            left: 5%;
+            margin: 0;
+            border-bottom: none;
+            z-index: 10;
+        }
+
+        .product-slider {
+            display: flex;
+            width: max-content;
+            height: 50vh;
+            padding-left: 10vw;
+            padding-right: 10vw;
+            will-change: transform;
+        }
+
+        .product-item {
+            width: 35vw;
+            min-width: 300px;
+            max-width: 600px;
+            height: 100%;
+            flex-shrink: 0;
+            margin-right: 3vw;
+            display: block;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .product-item:last-child {
+            margin-right: 0;
+        }
+
+        .product-img {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.02);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.1) 40%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 60px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .product-text h3 {
+            color: #fff;
+            font-size: clamp(28px, 3vw, 46px);
+            font-weight: 800;
+            margin-bottom: 10px;
+            transform: translateY(20px);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .product-text p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transform: translateY(20px);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-item:hover .product-img img {
+            transform: scale(1.06);
+        }
+
+        .product-item:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-item:hover .product-text h3,
+        .product-item:hover .product-text p {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1024px) {
+            .product-item {
+                width: 75vw;
+                max-width: none;
+                margin-right: 5vw;
+            }
+
+            .product-slider {
+                padding-left: 5vw;
+                padding-right: 5vw;
+                height: 45vh;
+            }
+
+            .product-overlay {
+                padding: 30px;
+                opacity: 1;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 60%);
+            }
+
+            .product-text h3,
+            .product-text p {
+                transform: translateY(0);
+            }
+
+            .product-text h3 {
+                font-size: 32px;
+            }
+
+            .product-text p {
+                font-size: 14px;
+            }
+        }
+
+
+        /* ========= CTA SECTION ========= */
+        .cta {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-title {
+            font-size: clamp(40px, 6vw, 90px);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 50px;
+            line-height: 1;
+        }
+
+        .cta-btn {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            padding: 16px 50px;
+            background-color: var(--text);
+            color: var(--bg);
+            border-radius: 50px;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--accent);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* ========= FOOTER ========= */
+        footer {
+            padding: 40px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: var(--gray);
+            letter-spacing: 0.05em;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+            text-transform: uppercase;
+        }
+
+        .footer-links a:hover {
+            color: var(--text);
+        }
+
+        /* ========= VISION & HISTORY 2-COL ========= */
+        .vision-history { padding: 150px 5%; max-width: 1400px; margin: 0 auto; }
+        .vision-header { display: flex; gap: 5%; margin-bottom: 120px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 60px; }
+        .vision-title { width: 30%; font-size: clamp(32px, 4vw, 48px); font-weight: 800; }
+        .vision-desc { width: 65%; }
+        .vision-desc h3 { font-size: clamp(18px, 2vw, 24px); font-weight: 700; margin-bottom: 20px; line-height: 1.4; color: #fff;}
+        .vision-desc p { font-size: clamp(15px, 1.2vw, 16px); color: var(--gray); line-height: 1.8; word-break: keep-all; }
+        .hist-grid { display: grid; grid-template-columns: 1fr 1fr; row-gap: 100px; column-gap: 40px; }
+        .hist-block { text-align: center; }
+        .hist-year { font-size: 50px; font-weight: 900; margin-bottom: 30px; letter-spacing: -0.02em; color: #fff; }
+        .hist-lines { font-size: 15px; color: var(--gray); line-height: 2; word-break: keep-all; }
+        @media (max-width: 900px) {
+            .vision-header { flex-direction: column; gap: 30px; }
+            .vision-title, .vision-desc { width: 100%; }
+            .hist-grid { grid-template-columns: 1fr; row-gap: 60px; }
+        }
+
+        /* ========= BANNER ========= */
+        .banner-section { width: 100%; height: clamp(50vh, 75vh, 900px); overflow: hidden; margin-top: 50px; }
+        .banner-img { width: 100%; height: 100%; object-fit: cover; }
+
+        @media (max-width: 768px) {
+            footer {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body class="lang-jp-active">
+
+    <div class="noise"></div>
+
+    <div class="lang-toggle-wrap">
+        <button class="lang-btn btn-kr">KR</button>
+        <span class="lang-divider">/</span>
+        <button class="lang-btn btn-jp active">JP</button>
+    </div>
+
+    <!-- 1. HERO SECTION -->
+    <section class="hero">
+        <div class="hero-subtitle">
+            ABOUT COMPASS PLANNERS<br>
+            <span
+                style="font-size:10px; color:#555; display:block; margin-top:10px; letter-spacing:0.1em; font-weight:400;">コンパスプラナーズについて</span>
+        </div>
+        <h1 class="hero-title">
+            KOREA TO
+            <span>JAPAN</span>
+        </h1>
+        <div class="scroll-down">
+            Scroll
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- 2. MISSION SECTION -->
+    <section class="mission">
+        <div class="mission-wrap">
+            <div class="mission-text split-target lang-kr">어떤 현장이라도 늘 해왔던 것처럼, 컴퍼스플래너스는 높은 완성도로 일본에서 현장을 구현합니다.</div>
+            <div class="mission-jp split-target lang-jp">どんな現場でも、いつも通りに。コンパスプラナーズは日本での現場を高い完成度で実現します。</div>
+        </div>
+    </section>
+
+    <!-- 2.5 BANNER IMAGE -->
+    <section class="banner-section" style="background:#111;">
+        <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?auto=format&fit=crop&w=2500&q=80" alt="Cinematic Production Setup" class="banner-img">
+    </section>
+
+    <!-- VISION & HISTORY -->
+    <div class="vision-history" id="history">
+        <div class="vision-header gs-up">
+            <div class="vision-title">우리의 비전</div>
+            <div class="vision-desc">
+                <h3>"AI-Driven Innovation, Human-Centered Experience"</h3>
+                <p>인공지능이 주도하는 혁신과 인간 중심의 경험 설계를 통해, 디지털과 현실이 자연스럽게 융합되는<br>새로운 세상을 만들어갑니다.</p>
+            </div>
+        </div>
+        <div class="hist-grid">
+            <div class="hist-block gs-up">
+                <div class="hist-year">2017</div>
+                <div class="hist-lines">
+                    메르세데스 벤츠 VR<br>청와대 VR<br>메르세데스 벤츠 디올 콜라보 프로젝트
+                </div>
+            </div>
+            <div class="hist-block gs-up">
+                <div class="hist-year">2018</div>
+                <div class="hist-lines">
+                    홀로그램 판타지 퍼포먼스 '도깨비판타지아'<br>홀로그램 3D 컨트롤 타워<br>세종시 스마트 시티 '투어센터'
+                </div>
+            </div>
+            <div class="hist-block gs-up">
+                <div class="hist-year">2019</div>
+                <div class="hist-lines">
+                    임시정부수립 100주년기념 '상해임시정부를 찾아서' VR<br>VR과 홀로그램의 융복합 리듬 퍼포먼스 게임 'HOLOBEATS'<br>매직리프를 활용한 AR Glass 체험 '애니멀 레스큐 MR'<br>역사의 발자취를 따라서, 시네마형 역사게임 'Hidden Story VR'
+                </div>
+            </div>
+            <div class="hist-block gs-up">
+                <div class="hist-year">2020</div>
+                <div class="hist-lines">
+                    Digital Exhibition - "MAP OF THE SOUL"<br>Digital Exhibition - 두산로보틱스 버츄얼 쇼케이스<br>Digital Exhibition - 서울아트마켓 버츄얼 팜스<br>Digital Exhibition - 서울 진로직업박람회
+                </div>
+            </div>
+            <div class="hist-block gs-up">
+                <div class="hist-year">2021</div>
+                <div class="hist-lines">
+                    디지털 전시관 플랫폼 - 바이브테크리얼<br>메타버스 얼라이언스 오픈컨퍼런스 디지털 전시 제작 및 운영<br>스마트 국토 엑스포 디지털 전시 제작/운영 (이외 16종 B2G 전시)<br>스페인 국제관광박람회 FITUR 2022 홀로그램 메타버스 한국관 공연
+                </div>
+            </div>
+            <div class="hist-block gs-up">
+                <div class="hist-year">2022</div>
+                <div class="hist-lines">
+                    이랜드 벤처스, 이월드 시드라운드 투자 유치 (20억)<br>한국문화재재단 디지털 미디어 아트 '순간과 영원의 사이를 거닐다'<br>LG AI 디지털휴먼 TILDA 시범 쇼케이스
+                </div>
+            </div>
+            <div class="hist-block gs-up">
+                <div class="hist-year">2023</div>
+                <div class="hist-lines">
+                    서울패션위크, 3D 패션 스캐닝 특별부스 쇼케이스 전시<br>ICT 기금사업 성과보고회 우수성과 창출 검증 기업 선정<br>디지털공간기반 플랫폼 개발 고도화 정부 지원 25억 규모 사업추진
+                </div>
+            </div>
+            <div class="hist-block gs-up">
+                <div class="hist-year">2024</div>
+                <div class="hist-lines">
+                    더현대판교, 생성형 AI를 활용한 NBA스타 실감콘텐츠 쇼케이스 전시<br>선도기술 프로젝트 정부 지원 50억 규모 사업추진
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. SERVICES SECTION -->
+    <section class="services">
+        <div class="section-header">Our Expertise</div>
+
+        <div class="service-list">
+            <!-- Service 1 -->
+            <div class="service-item">
+                <div class="service-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=2000"
+                        class="parallax-img" alt="Production">
+                </div>
+                <div class="service-content">
+                    <div class="service-num">01</div>
+                    <h2 class="service-title">Production</h2>
+                    <p class="service-desc">
+                        <span class="lang-kr">일본에서의 제작에서 촬영, 납품까지 모든 프로세스를 완벽하게 지원합니다. 압도적인 퀄리티를 경험하세요.</span>
+                        <span class="lang-jp">日本での制作から撮影、納品まで全てのプロセスを完璧にサポートします。圧倒的なクオリティを体験してください。</span>
+                    </p>
+                    <ul class="service-bullets">
+                        <li><span class="lang-kr">기업CF 및 광고</span><span class="lang-jp">企業CFおよび広告</span></li>
+                        <li><span class="lang-kr">뮤직비디오</span><span class="lang-jp">ミュージックビデオ</span></li>
+                        <li><span class="lang-kr">유튜브 및 다큐멘터리</span><span class="lang-jp">YouTubeおよびドキュメンタリー</span></li>
+                        <li><span class="lang-kr">종합 엔터테인먼트</span><span class="lang-jp">総合エンターテインメント</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="service-item">
+                <div class="service-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=2000"
+                        class="parallax-img" alt="Coordination">
+                </div>
+                <div class="service-content">
+                    <div class="service-num">02</div>
+                    <h2 class="service-title">Coordination</h2>
+                    <p class="service-desc">
+                        <span class="lang-kr">일본 현장에 필요한 모든 전문 촬영 서포트 서비스를 체계적으로 제공하며 완벽한 로컬라이징을 이룹니다.</span>
+                        <span class="lang-jp">日本の現場に必要な全ての専門撮影サポートサービスを体系的に提供し、完璧なローカライズを実現します。</span>
+                    </p>
+                    <ul class="service-bullets">
+                        <li><span class="lang-kr">프리프로덕션 및 통역</span><span class="lang-jp">プリプロダクションおよび通訳</span></li>
+                        <li><span class="lang-kr">전문 스태프 파견</span><span class="lang-jp">専門スタッフ派遣</span></li>
+                        <li><span class="lang-kr">로케이션 매니징</span><span class="lang-jp">ロケーションマネジメント</span></li>
+                        <li><span class="lang-kr">일본 현지 로컬라이징</span><span class="lang-jp">日本現地ローカライズ</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="service-item">
+                <div class="service-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=2000"
+                        class="parallax-img" alt="Drone Visuals">
+                </div>
+                <div class="service-content">
+                    <div class="service-num">03</div>
+                    <h2 class="service-title">Drone Visuals</h2>
+                    <p class="service-desc">
+                        <span class="lang-kr">국내 또는 일본 어디서나 하늘 위에서 완성되는 새로운 시선을 선사합니다. 정교한 비행으로 한계를 넘습니다.</span>
+                        <span class="lang-jp">国内または日本全国どこでも、空から完成される新しい視点を提供します。精巧な飛行で限界を超えます。</span>
+                    </p>
+                    <ul class="service-bullets">
+                        <li><span class="lang-kr">Mavic4 pro / Inspire</span><span class="lang-jp">Mavic4 pro /
+                                Inspire</span></li>
+                        <li><span class="lang-kr">FPV 다이내믹 샷</span><span class="lang-jp">FPVダイナミックショット</span></li>
+                        <li><span class="lang-kr">시부야/신주쿠 주야간 비행</span><span class="lang-jp">渋谷/新宿の昼夜飛行</span></li>
+                        <li><span class="lang-kr">초밀집구역 특수촬영</span><span class="lang-jp">超密集地域特殊撮影</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="service-item">
+                <div class="service-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?auto=format&fit=crop&q=80&w=2000"
+                        class="parallax-img" alt="Rental Support">
+                </div>
+                <div class="service-content">
+                    <div class="service-num">04</div>
+                    <h2 class="service-title">Rental Support</h2>
+                    <p class="service-desc">
+                        <span class="lang-kr">현지에서 꼭 필요한 최고급 카메라 및 특수 제작 장비 렌탈, VIP 차량 운전 서비스를 안전하게 지원합니다.</span>
+                        <span class="lang-jp">現地で不可欠な最高級カメラおよび特殊制作機材のレンタル、VIP車両運転サービスを安全にサポートします。</span>
+                    </p>
+                    <ul class="service-bullets">
+                        <li><span class="lang-kr">하이엔드 카메라 렌탈</span><span class="lang-jp">ハイエンドカメラレンタル</span></li>
+                        <li><span class="lang-kr">조명 및 그립 렌탈</span><span class="lang-jp">照明およびグリップレンタル</span></li>
+                        <li><span class="lang-kr">특수 촬영 장비 셋업</span><span class="lang-jp">特殊撮影機材のセットアップ</span></li>
+                        <li><span class="lang-kr">현지 차량 및 운전 서포트</span><span class="lang-jp">現地車両および運転サポート</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. PRODUCT / WORKS SECTION (HORIZONTAL SLIDESHOW) -->
+    <div class="products-wrapper" id="productsWrapper">
+        <section class="products" id="productsPin">
+            <div class="section-header">PRODUCTS / WORKS</div>
+
+            <div class="product-slider" id="productSlider">
+                <a href="#" class="product-item interactive">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?auto=format&fit=crop&q=80&w=1000"
+                            alt="Work 1">
+                        <div class="product-overlay">
+                            <div class="product-text">
+                                <h3>Global Brand CF</h3>
+                                <p>Commercial / Tokyo</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="product-item interactive">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&q=80&w=1000"
+                            alt="Work 2">
+                        <div class="product-overlay">
+                            <div class="product-text">
+                                <h3>Idol Music Video</h3>
+                                <p>Entertainment / Shibuya</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="product-item interactive">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&q=80&w=1000"
+                            alt="Work 3">
+                        <div class="product-overlay">
+                            <div class="product-text">
+                                <h3>Cinematic Documentary</h3>
+                                <p>Film / Osaka</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="product-item interactive">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=1000"
+                            alt="Work 4">
+                        <div class="product-overlay">
+                            <div class="product-text">
+                                <h3>Automotive Reveal</h3>
+                                <p>CF & Drone / Shinjuku</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    </section>
+
+    <!-- 6. CTA SECTION -->
+    <section class="cta">
+        <h2 class="cta-title">READY TO START?</h2>
+        <a href="#" class="cta-btn interactive">Contact Us</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div>© 2026 Compass Planners. All rights reserved.</div>
+        <div class="footer-links">
+            <a href="#" class="interactive">Seoul</a>
+            <a href="#" class="interactive">Tokyo</a>
+            <a href="#" class="interactive">Osaka</a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/plugins/animation.gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        // 1. Initialize Lenis (Smooth Scroll)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0);
+
+        // 2. Language Toggle Logic
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const isJp = e.target.classList.contains('btn-jp');
+                if (isJp) {
+                    document.body.classList.add('lang-jp-active');
+                    document.querySelector('.btn-jp').classList.add('active');
+                    document.querySelector('.btn-kr').classList.remove('active');
+                } else {
+                    document.body.classList.remove('lang-jp-active');
+                    document.querySelector('.btn-kr').classList.add('active');
+                    document.querySelector('.btn-jp').classList.remove('active');
+                }
+
+                // Refresh animation calculations after swap
+                setTimeout(() => {
+                    if (controller) { controller.update(true); }
+                    ScrollTrigger.refresh();
+                }, 100);
+            });
+        });
+
+        // 3. ScrollMagic Initialization
+        const controller = new ScrollMagic.Controller();
+
+        // 4. Mission Text Reveal (Bilingual)
+        const splitTargets = document.querySelectorAll('.split-target');
+        splitTargets.forEach(txt => {
+            const words = txt.innerText.split(/(\s+)/);
+            txt.innerHTML = "";
+            words.forEach(word => {
+                if (word.trim() === "") {
+                    txt.appendChild(document.createTextNode(word));
+                    return;
+                }
+                const span = document.createElement("span");
+                span.classList.add("word");
+                span.innerText = word;
+                txt.appendChild(span);
+            });
+        });
+
+        const missionTween = gsap.to(".mission-wrap .word", {
+            color: "#fff",
+            stagger: 0.1,
+            ease: "power1.inOut" // Changed to make transition look more natural
+        });
+
+        new ScrollMagic.Scene({
+            triggerElement: ".mission",
+            triggerHook: 0.7,
+            duration: "60%" // Slightly extended scrub duration for a smoother bilingual reveal
+        })
+            .setTween(missionTween)
+            .addTo(controller);
+
+        // 3. Vision & History Custom Reveals
+        gsap.utils.toArray('.gs-up').forEach((item) => {
+            const fadeTween = gsap.fromTo(item, { opacity: 0, y: 80 }, { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" });
+            new ScrollMagic.Scene({ triggerElement: item, triggerHook: 0.85, reverse: false })
+                .setTween(fadeTween).addTo(controller);
+        });
+
+        // 5.5 Banner Anim Parallax
+        const bannerTween = gsap.fromTo(".banner-img", { scale: 1.25 }, { scale: 1, ease: "none" });
+        new ScrollMagic.Scene({
+            triggerElement: ".banner-section",
+            triggerHook: 1,
+            duration: "150%"
+        }).setTween(bannerTween).addTo(controller);
+
+        // 6. Parallax Images in Services
+        gsap.utils.toArray('.service-img-wrap').forEach(wrap => {
+            const img = wrap.querySelector('.parallax-img');
+            const parallaxTween = gsap.to(img, {
+                yPercent: 15,
+                ease: "none"
+            });
+
+            new ScrollMagic.Scene({
+                triggerElement: wrap,
+                triggerHook: 1, // Start when entering from bottom
+                duration: window.innerHeight + wrap.offsetHeight // End when leaving top
+            })
+                .setTween(parallaxTween)
+                .addTo(controller);
+        });
+
+        // 7. Horizontal Slideshow for Products
+        const slider = document.getElementById("productSlider");
+        // Calculate the maximum horizontal scroll distance
+        const horizontalScrollAmount = slider.scrollWidth - window.innerWidth;
+
+        const slideTween = gsap.to(slider, {
+            x: -horizontalScrollAmount,
+            ease: "none"
+        });
+
+        new ScrollMagic.Scene({
+            triggerElement: "#productsWrapper",
+            triggerHook: 0, // start when wrapper hits top of viewport
+            duration: horizontalScrollAmount + window.innerHeight // nice long scroll track
+        })
+            .setPin("#productsPin")
+            .setTween(slideTween)
+            .addTo(controller);
+
+        // 8. General Entrance Reveals (Headers, CTA)
+        const simpleReveals = [
+            ...document.querySelectorAll('.section-header:not(.products .section-header)'), // exclude product header
+            ...document.querySelectorAll('.cta-title'),
+            ...document.querySelectorAll('.cta-btn')
+        ];
+
+        simpleReveals.forEach(el => {
+            const fadeTween = gsap.from(el, {
+                opacity: 0,
+                y: 40,
+                duration: 1,
+                ease: "power2.out"
+            });
+
+            new ScrollMagic.Scene({
+                triggerElement: el,
+                triggerHook: 0.85,
+                reverse: false
+            })
+                .setTween(fadeTween)
+                .addTo(controller);
+        });
+
+        // 9. Staggered Individual Text Reveals (For Services / Content blocks)
+        const serviceContents = document.querySelectorAll('.service-content');
+        serviceContents.forEach(content => {
+            // Target every piece of individual text inside
+            const texts = content.querySelectorAll('.service-num, .service-title, .service-desc, li');
+
+            const tl = gsap.timeline();
+            tl.from(texts, {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: "power2.out"
+            });
+
+            new ScrollMagic.Scene({
+                triggerElement: content,
+                triggerHook: 0.8,
+                reverse: false // play once
+            })
+                .setTween(tl)
+                .addTo(controller);
+        });
+
+    </script>
+</body>
+
+</html>
